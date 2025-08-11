@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 
 # Load model once when the server starts
-model = SentenceTransformer('all-MiniLM-L6-v2')
+model = SentenceTransformer('distiluse-base-multilingual-cased-v1')
 
 @app.route('/embedding', methods=['POST'])
 def get_embedding():
