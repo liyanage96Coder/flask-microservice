@@ -1,0 +1,23 @@
+from flask import Flask, request, jsonify
+from sentence_transformers import SentenceTransformer
+
+app = Flask(__name__)
+
+# Load model once when the server starts
+model = SentenceTransformer('all-MiniLM-L6-v2')
+
+@app.route('/embedding', methods=['POST'])
+def get_embedding():
+    data = request.json
+    question = data.get('question')
+    if not question:
+        return jsonify({"error": "Missing 'question' in request body"}), 400
+
+    # Generate embedding locally
+    embedding = model.encode(question).tolist()
+
+    return jsonify({"embedding": embedding})
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
